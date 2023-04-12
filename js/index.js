@@ -55,7 +55,8 @@ window.onload = () => {
     }
     const startScreen = document.querySelector('.game-intro')
     const restartScreen = document.querySelector('.game-outro')
-    const scoreElement = document.querySelector('#score')
+    let scoreElement = document.querySelector('.score')
+    let scoreElementOutro = document.querySelector('.score-span')
     restartScreen.style.display = 'none'
     document.getElementById("startButton").onclick = () => {
         startScreen.style.display = "none"
@@ -122,7 +123,7 @@ window.onload = () => {
         animate()
     }
     function animate () {
-        // move background images
+        scoreElement.innerHTML = score
         backgroundImg1X -= 2
         backgroundImg2X -= 2
         if (backgroundImg1X < -canvas.width){
@@ -212,7 +213,7 @@ window.onload = () => {
         }
 
         if (gameOver) {
-            gameoverFunc()
+            gameoverFunc(score)
         }
         else {
             animateId = requestAnimationFrame(startGame)
@@ -225,9 +226,10 @@ window.onload = () => {
     
     
 
-    function gameoverFunc () {
+    function gameoverFunc (score) {
         cancelAnimationFrame(animateId)
         restartScreen.style.display = "block"
+        scoreElementOutro.innerHTML = score
     }
 
 
