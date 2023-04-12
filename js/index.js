@@ -3,15 +3,23 @@ window.onload = () => {
     canvas.style.display = "none"
 
     const backgroundImg1 = new Image()
-    backgroundImg1.src = '../images/underwater-background.avif'
+    backgroundImg1.src = 'images/bground.png'
     const backgroundImg2 = new Image()
-    backgroundImg2.src = '../images/underwater-background.avif'
+    backgroundImg2.src = 'images/bground.png'
     const sharkImg = new Image()
-    sharkImg.src = '../images/shark-isolated.jpg'
+    sharkImg.src = 'images/shark.png'
     const sharkImgSkewUp = new Image()
-    sharkImgSkewUp.src = '../images/shark-isolated-skew15up.jpg'
+    sharkImgSkewUp.src = 'images/shark-skewed-up.png'
     const sharkImgSkewDown = new Image()
-    sharkImgSkewDown.src = '../images/shark-isolated-skew15down.jpg'
+    sharkImgSkewDown.src = 'images/shark-skewed-down.png'
+    const scubaDiver = new Image()
+    scubaDiver.src = 'images/scubadiver2new.png'
+    const schoolOfFish = new Image()
+    schoolOfFish.src = 'images/schooloffish.png'
+    const octopus = new Image()
+    octopus.src = 'images/orangeoctopus.png'
+    const turtle = new Image()
+    turtle.src = 'images/turtle.png'
     
 
     const ctx = canvas.getContext('2d')
@@ -23,49 +31,97 @@ window.onload = () => {
     let isMovingRight = false
     let isMovingLeft = false
     let sharkSpeed = 0
+    let objectsSpeed = 3
     let gameOver = false
     let animateId
     let sharkX = 0
     let sharkY = canvas.height/2
     let sharkWidth = 150
-    let sharkHeight = 50
+    let sharkHeight = 75
     let score = 0
-    let randomY = 250
+    // random spawning y position for objects
+    function randomY() {
+        let maxY = canvas.height - 50
+        let minY = 50
+        let randomYPosition = Math.floor(Math.random()*(maxY-minY+1)+50)
+        return randomYPosition
+    }
+    // random spawning x position for objects
+    function randomX() {
+        let maxX = canvas.width*3
+        let minX = canvas.width
+        let randomXPosition = Math.floor(Math.random()*(maxX-minX)+minX)
+        return randomXPosition
+    }
     const startScreen = document.querySelector('.game-intro')
     const restartScreen = document.querySelector('.game-outro')
+    const scoreElement = document.querySelector('#score')
     restartScreen.style.display = 'none'
     document.getElementById("startButton").onclick = () => {
+        startScreen.style.display = "none"
+        restartScreen.style.display = "none"
+        canvas.style.display = "block"
+        startGame()
+    }
+    document.getElementById("restartButton").onclick = () => {
+        startScreen.style.display = "none"
+        restartScreen.style.display = "none"
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        sharkX = 0
+        sharkY = canvas.height/2
+        objectsArray = [
+            {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+            {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+            {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+            {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+            {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+            {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+            {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+            {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+            {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+            {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+            {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+            {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+            {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+            {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+            {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+            {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+            {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+            {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50}
+        ]
         startGame()
     }
 
-    // const objectsArray = [
-    //     {img: scubaDiver1, x: 950, y: randomY, width: 50, height: 50},
-    //     {img: scubaDiver2, x: 950, y: randomY, width: 50, height: 50},
-    //     {img: scubaDiver3, x: 950, y: randomY, width: 50, height: 50},
-    //     {img: fish, x: 950, y: randomY, width: 50, height: 50},
-    //     {img: octopus, x: 950, y: randomY, width: 50, height: 50},
-    //     {img: turtle, x: 950, y: randomY, width: 50, height: 50},
-    //     {img: legs, x: 950, y: 50, width: 50, height: 100},
-    // ]
-
-    // // draw() {
-    // //     ctx.beginPath()
-    // //     ctx.fillStyle = 'teal'
-    // //     // xPos, yPos, width, height
-    // //     ctx.rect(this.xPos, this.yPos, this.width, this.height)
-    // //     ctx.fill()
-    // //     ctx.closePath()
-    // //   }
-
+    let objectsArray = [
+        {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+        {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+        {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+        {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+        {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+        {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+        {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+        {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+        {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+        {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+        {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+        {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+        {img: schoolOfFish, x: randomX(), y: randomY()-20, width: 50, height: 50},
+        {img: octopus, x: randomX(), y: randomY()+20, width: 50, height: 50},
+        {img: turtle, x: randomX(), y: randomY()+10, width: 50, height: 50},
+        {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+        {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
+        {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50}
+    ]
 
     function startGame () {
         // console.log("start game")
-        startScreen.style.display = "none"
-        canvas.style.display = "block"
+        gameOver = false
         ctx.drawImage(backgroundImg1, backgroundImg1X, 0, canvas.width, canvas.height)
         ctx.drawImage(backgroundImg2, backgroundImg2X, 0, canvas.width, canvas.height)
         ctx.drawImage(sharkImg, sharkX, sharkY, sharkWidth,sharkHeight)
-
+        animate()
+    }
+    function animate () {
         // move background images
         backgroundImg1X -= 2
         backgroundImg2X -= 2
@@ -76,25 +132,103 @@ window.onload = () => {
             backgroundImg2X = canvas.width
         }
 
+        for (i=0; i<objectsArray.length; i++){
+            console.log(score)
+            ctx.drawImage(
+                objectsArray[i].img, 
+                objectsArray[i].x, 
+                objectsArray[i].y, 
+                objectsArray[i].width,
+                objectsArray[i].height
+            )
+            objectsArray[i].x -= objectsSpeed
+
+            // if (objectsArray[i].x < 0 - objectsArray[i].width){
+            //     objectsArray[i].x = canvas.width+objectsArray[i].width
+            // }
+            // check for collisions with scubadivers
+            if (objectsArray[i].img === scubaDiver &&
+                objectsArray[i].x + 15 < sharkX + sharkWidth - 15 &&
+                objectsArray[i].x > sharkX &&
+                objectsArray[i].y + objectsArray[i].height - 5 > sharkY + 15 &&
+                objectsArray[i].y < sharkY + sharkHeight - 25) {
+                    gameOver = true;
+                }
+            // check for collisions with octopus
+            if (objectsArray[i].img === octopus &&
+                objectsArray[i].x + 15 < sharkX + sharkWidth - 15 &&
+                objectsArray[i].x > sharkX &&
+                objectsArray[i].y + objectsArray[i].height - 5 > sharkY + 15 &&
+                objectsArray[i].y < sharkY + sharkHeight - 20) {
+                    objectsArray[i].x = randomX()
+                    objectsArray[i].y = randomY()
+                    score++
+                }
+                // check for collisions with fish
+            if (objectsArray[i].img === schoolOfFish &&
+                objectsArray[i].x + 15 < sharkX + sharkWidth - 15 &&
+                objectsArray[i].x > sharkX &&
+                objectsArray[i].y + objectsArray[i].height - 5 > sharkY + 15 &&
+                objectsArray[i].y < sharkY + sharkHeight - 20) {
+                    objectsArray[i].x = randomX()
+                    objectsArray[i].y = randomY()
+                    score++
+                }
+                // check for collisions with turtles
+            if (objectsArray[i].img === turtle &&
+                objectsArray[i].x + 15 < sharkX + sharkWidth - 15 &&
+                objectsArray[i].x > sharkX &&
+                objectsArray[i].y + objectsArray[i].height - 5 > sharkY + 15 &&
+                objectsArray[i].y < sharkY + sharkHeight - 20) {
+                    objectsArray[i].x = randomX()
+                    objectsArray[i].y = randomY()
+                    score++
+                }    
+                // checks to see if scubadiver got out of canvas
+            if (objectsArray[i].img === scubaDiver &&
+                objectsArray[i].x < -objectsArray[i].width + 1){
+                objectsArray[i].x = randomX()
+                objectsArray[i].y = randomY()  
+            }    
+            // checks to see if octupus got out of canvas
+            if (objectsArray[i].img === octopus &&
+                objectsArray[i].x < -objectsArray[i].width + 1){
+                objectsArray[i].x = randomX()
+                objectsArray[i].y = randomY()  
+            }    
+            // checks to see if fish got out of canvas
+            if (objectsArray[i].img === schoolOfFish &&
+                objectsArray[i].x < -objectsArray[i].width + 1){
+                objectsArray[i].x = randomX()
+                objectsArray[i].y = randomY()  
+            }    
+            // checks to see if turtle got out of canvas
+            if (objectsArray[i].img === turtle &&
+                objectsArray[i].x < -objectsArray[i].width + 1){
+                objectsArray[i].x = randomX()
+                objectsArray[i].y = randomY()  
+            }
+
+        }
+
         if (gameOver) {
-            cancelAnimationFrame(animateId)
-            restartScreen.style.display = "block"
+            gameoverFunc()
         }
         else {
             animateId = requestAnimationFrame(startGame)
         }
         
-
-        if (sharkX > canvas.width/2){
-            sharkSpeed = 3.5
-            movement ()
-        } else {
-            sharkSpeed = 2
-            movement ()
-        }
+        sharkSpeed = 2.5
+        movement()
         
     }
-        
+    
+    
+
+    function gameoverFunc () {
+        cancelAnimationFrame(animateId)
+        restartScreen.style.display = "block"
+    }
 
 
     function movement() {
@@ -133,7 +267,8 @@ window.onload = () => {
         if (isMovingUp === true && isMovingRight === true 
             && sharkY > 0 && sharkX < canvas.width - 150) {
             // need to add shark img skewed up
-                ctx.drawImage(sharkImgSkewUp, sharkX, sharkY, sharkWidth,sharkHeight)
+                // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+                // ctx.drawImage(sharkImgSkewUp, sharkX, sharkY, sharkWidth,sharkHeight)
                 sharkY -= sharkSpeed-0.5
                 sharkX += sharkSpeed-1
         }
@@ -144,7 +279,8 @@ window.onload = () => {
         }
         else if (isMovingDown === true && isMovingRight === true
             && sharkX < canvas.width - 150 && sharkY < canvas.height - 50) {
-                ctx.drawImage(sharkImgSkewDown, sharkX, sharkY, sharkWidth,sharkHeight)
+                // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+                // ctx.drawImage(sharkImgSkewDown, sharkX, sharkY, sharkWidth,sharkHeight)
                 sharkY += sharkSpeed-0.5
                 sharkX += sharkSpeed-1
         }
@@ -155,11 +291,13 @@ window.onload = () => {
         }
         // one key only
         else if (isMovingUp === true && sharkY > 0) {
-            ctx.drawImage(sharkImgSkewUp, sharkX, sharkY, sharkWidth,sharkHeight)
+            // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+            // ctx.drawImage(sharkImgSkewUp, sharkX, sharkY, sharkWidth,sharkHeight)
             sharkY -= sharkSpeed
         }
         else if (isMovingDown === true && sharkY < canvas.height - 50) {
-            ctx.drawImage(sharkImgSkewDown, sharkX, sharkY, sharkWidth,sharkHeight)
+            // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+            // ctx.drawImage(sharkImgSkewDown, sharkX, sharkY, sharkWidth,sharkHeight)
             sharkY += sharkSpeed
         }
         else if (isMovingRight === true && sharkX < canvas.width - 150) {

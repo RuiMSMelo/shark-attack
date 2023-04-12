@@ -1,12 +1,63 @@
 body {
+    position: absolute;
     padding: 0;
     text-align: center;
-    border: 1px solid black;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 2px solid black;
+    font-weight: 800;
+    font-family: Arial, Helvetica, sans-serif;
     width: 1000px;
     height: 500px;
 }
-
+.backgroundImage {
+    position: absolute;
+    left: 0;
+    width: 1000px;
+    height: 500px;
+}
 .game-intro p {
+    text-align: center;
+    position: absolute;
     font-size: 5em;
+    padding: 200px;
+    margin: 0;
+}
+#startButton {
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    text-align: center;
+    background-color: blueviolet;
+    border: 0;
+    margin: 0;
+    padding: 10px 30px;
+    
+}
+#restartButton {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    background-color: blueviolet;
+    border: 0;
+    margin: 0;
+    padding: 10px 30px;
+}
+.game-board {
+    position: absolute;
+}
+.game-outro {
+    font-size: 4em;
+    font-weight: 900;
+    position: absolute;
+    margin-left: 300px;
+
+}
+#score-div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    width: 50px;
+}
+#score-p {
+    color: black;
+    font-size: 100px;
 }

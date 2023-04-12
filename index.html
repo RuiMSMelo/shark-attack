@@ -8,16 +8,21 @@
     <script src="js\index.js"></script>
     <title>Shark Attack</title>
 </head>
-<body>
+<body >
     <div class="game-intro">
+        <img class="backgroundImage" src="/images/bground.png" />
         <p>Shark Attack</p>
         <button id="startButton">Start Playing!</button>
     </div>
     <div class="game-board">
+        <div id="score-div">
+            <p class="score">0</p>
+        </div>
         <canvas id="canvas" width="1000" height="500"></canvas>
     </div>
     <div class="game-outro">
-        <p id="score">Your score:</p>
+        <p>GAME OVER</p>
+        <p>Your score: <span class="score">0</span></p>
         <button id="restartButton">Restart game</button>
     </div>
 </body>
