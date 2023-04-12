@@ -90,6 +90,7 @@ window.onload = () => {
             {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50},
             {img: scubaDiver, x: randomX(), y: randomY(), width: 100, height: 50}
         ]
+        score = 0
         startGame()
     }
 
