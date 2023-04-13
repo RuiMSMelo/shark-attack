@@ -67,6 +67,7 @@ window.onload = () => {
     document.getElementById("restartButton").onclick = () => {
         startScreen.style.display = "none"
         restartScreen.style.display = "none"
+        scoreElement.style.display = "block"
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         sharkX = 0
         sharkY = canvas.height/2
@@ -231,6 +232,7 @@ window.onload = () => {
         cancelAnimationFrame(animateId)
         restartScreen.style.display = "block"
         scoreElementOutro.innerHTML = score
+        scoreElement.style.display = "none"
     }
 
 
