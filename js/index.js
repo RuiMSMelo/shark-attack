@@ -56,6 +56,7 @@ window.onload = () => {
     const startScreen = document.querySelector('.game-intro')
     const restartScreen = document.querySelector('.game-outro')
     let scoreElement = document.querySelector('.score')
+    scoreElement.style.display = "none"
     let scoreElementOutro = document.querySelector('.score-span')
     restartScreen.style.display = 'none'
     document.getElementById("startButton").onclick = () => {
@@ -119,6 +120,7 @@ window.onload = () => {
     function startGame () {
         // console.log("start game")
         gameOver = false
+        scoreElement.style.display = "block"
         ctx.drawImage(backgroundImg1, backgroundImg1X, 0, canvas.width, canvas.height)
         ctx.drawImage(backgroundImg2, backgroundImg2X, 0, canvas.width, canvas.height)
         ctx.drawImage(sharkImg, sharkX, sharkY, sharkWidth,sharkHeight)
