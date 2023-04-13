@@ -15,6 +15,6 @@ A simple game where you control a shark, in a 2d screen, and need to eat all the
 - Infinite background
 - Diferent types of food
 
-##URLs
+## URLs
 - game link: https://ruimsmelo.github.io/shark-attack/
 
